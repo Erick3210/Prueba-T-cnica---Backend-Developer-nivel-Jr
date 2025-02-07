@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vender Boleto</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <h1>Vender Boleto - Evento: <span th:text="${evento.nombre}"></span></h1>
+    
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+    
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <p>Boletos Disponibles: <span th:text="${evento.boletosDisponibles}"></span></p>
+    <p>Boletos Vendidos: <span th:text="${evento.boletosVendidos}"></span></p>
+
+    <form th:action="@{/api/eventos/vender-boleto/{id}(id=${evento.id})}" method="post">
+        <button type="submit">Vender Boleto</button>
+    </form>
+
+    <a href="/api/eventos/listar" class="button-create">Volver al listado</a>
+</body>
+</html>

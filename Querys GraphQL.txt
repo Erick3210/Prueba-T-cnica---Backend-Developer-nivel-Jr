@@ -1,0 +1,78 @@
+query {
+    listarEventos {
+        id
+        nombre
+        fechaInicio
+        fechaFin
+        boletosDisponibles
+        boletosVendidos
+        boletosCanjeados
+    }
+}
+
+
+mutation {
+    actualizarEvento(
+        id: 1,                             # Cambia el ID por el del evento que deseas modificar
+        nombre: "Evento Actualizado",       # Cambia el nombre del evento
+        fechaInicio: "2025-02-10",          # Cambia la fecha de inicio
+        fechaFin: "2025-02-20",             # Cambia la fecha de fin
+        boletosDisponibles: 100             # Ajusta los boletos disponibles
+    ) {
+        id
+        nombre
+        fechaInicio
+        fechaFin
+        boletosDisponibles
+        boletosVendidos
+        boletosCanjeados
+    }
+}
+
+
+
+
+mutation {
+    borrarEvento(id: 5)
+}
+
+
+
+mutation {
+    venderBoleto(eventoId: 1, cantidad: 2) {
+        id
+        nombre
+        boletosDisponibles
+        boletosVendidos
+    }
+}
+
+
+
+mutation {
+    canjearBoleto(
+        eventoId: 1
+        boletoId: 101
+    ) {
+        id
+        nombre
+        boletosCanjeados
+    }
+}
+
+
+
+query {
+    detalleEvento(id: 1) {
+        id
+        nombre
+        fechaInicio
+        fechaFin
+        boletosDisponibles
+        boletosVendidos
+        boletosCanjeados
+    }
+}
+
+
+

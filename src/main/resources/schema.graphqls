@@ -1,0 +1,39 @@
+type Query {
+    listarEventos: [Evento]
+}
+
+type Evento {
+    id: ID
+    nombre: String
+    fechaInicio: String
+    fechaFin: String
+    boletosDisponibles: Int
+    boletosVendidos: Int
+    boletosCanjeados: Int
+}
+
+type Mutation {
+    actualizarEvento(
+        id: ID!
+        nombre: String
+        fechaInicio: String
+        fechaFin: String
+        boletosDisponibles: Int
+    ): Evento
+
+    borrarEvento(id: ID!): String
+
+    venderBoleto(
+        eventoId: ID!
+        cantidad: Int!
+    ): Evento
+
+    canjearBoleto(
+        eventoId: ID!
+        boletoId: ID!
+    ): Evento
+}
+type Query {
+    listarEventos: [Evento]
+    detalleEvento(id: ID!): Evento
+}

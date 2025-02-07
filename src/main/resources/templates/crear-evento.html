@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Crear Evento</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 420px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-secondary {
+            background-color: #6c757d;
+        }
+
+        .button-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Crear Nuevo Evento</h1>
+
+        <!-- Mensaje de éxito -->
+        <div class="success-message" th:if="${successMessage}">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <!-- Mensaje de error -->
+        <div class="error-message" th:if="${error}">
+            <p th:text="${error}"></p>
+        </div>
+        
+        <form th:action="@{/api/eventos/crear}" th:object="${evento}" method="post">
+
+            <!-- Nombre del evento -->
+            <label for="nombre">Nombre del evento:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required maxlength="255"
+                placeholder="Ingrese el nombre del evento" />
+            <div class="error-message" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+
+            <!-- Fecha de inicio -->
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input type="date" id="fechaInicio" th:field="*{fechaInicio}" required />
+            <div class="error-message" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}"></div>
+
+            <!-- Fecha de fin -->
+            <label for="fechaFin">Fecha de fin:</label>
+            <input type="date" id="fechaFin" th:field="*{fechaFin}" required />
+            <div class="error-message" th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}"></div>
+
+            <!-- Boletos disponibles -->
+            <label for="boletosDisponibles">Boletos disponibles:</label>
+            <input type="number" id="boletosDisponibles" th:field="*{boletosDisponibles}" required min="1" max="300"
+                placeholder="Cantidad de boletos disponibles" />
+            <div class="error-message" th:if="${#fields.hasErrors('boletosDisponibles')}"
+                th:errors="*{boletosDisponibles}"></div>
+
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Guardar Evento</button>
+        </form>
+
+        <!-- Botón para redirigir a la lista de eventos -->
+        <a href="/api/eventos/listar">
+            <button type="button" class="button-secondary">Ver Lista de Eventos</button>
+        </a>
+    </div>
+</body>
+
+</html>

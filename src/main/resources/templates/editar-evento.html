@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Evento</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003d99;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #003d99;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056cc;
+        }
+
+        a {
+            display: inline-block;
+            text-align: center;
+            color: #003d99;
+            margin-top: 10px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editar Evento</h1>
+
+    <!-- Mostrar mensaje de éxito o error -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Formulario para editar el evento -->
+    <form th:action="@{/api/eventos/actualizar}" th:object="${evento}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Evento</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio</label>
+            <input type="date" id="fechaInicio" th:field="*{fechaInicio}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="fechaFin">Fecha de Fin</label>
+            <input type="date" id="fechaFin" th:field="*{fechaFin}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="boletosDisponibles">Boletos Disponibles</label>
+            <input type="number" id="boletosDisponibles" th:field="*{boletosDisponibles}" min="1" max="300" required />
+        </div>
+
+        <button type="submit">Guardar Cambios</button>
+          <!-- Botón para cancelar -->
+          <a href="/api/eventos/listar">
+            <button type="button" class="button-secondary">Cancelar</button>
+        </a>
+    </form>
+</body>
+</html>

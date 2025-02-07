@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Evento</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Detalle del Evento</h1>
+    </header>
+
+    <div class="container">
+        <!-- Mensaje de éxito -->
+        <div th:if="${mensaje}" class="success-message">
+            <p th:text="${mensaje}"></p>
+        </div>
+
+        <!-- Información del evento -->
+        <div class="event-details">
+            <p><strong>Nombre del evento:</strong> <span th:text="${evento.nombre}"></span></p>
+            <p><strong>Fecha de inicio:</strong> <span th:text="${evento.fechaInicio}"></span></p>
+            <p><strong>Fecha de fin:</strong> <span th:text="${evento.fechaFin}"></span></p>
+            <p><strong>Boletos disponibles:</strong> <span th:text="${evento.boletosDisponibles}"></span></p>
+            <p><strong>Boletos vendidos:</strong> <span th:text="${evento.boletosVendidos}"></span></p>
+            <p><strong>Boletos canjeados:</strong> <span th:text="${evento.boletosCanjeados}"></span></p>
+        </div>
+
+        <!-- Enlaces para regresar o editar -->
+        <a href="/eventos" class="button">Regresar a la lista de eventos</a>
+        <a th:href="@{'/api/eventos/editar/' + ${evento.id}}" class="button">Editar Evento</a>
+    </div>
+</body>
+</html>

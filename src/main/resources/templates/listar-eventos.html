@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Eventos</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003d99;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #003d99;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            color: #003d99;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .button-create, .button-vender {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #003d99;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .button-create:hover, .button-vender:hover {
+            background-color: #0056cc;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eventos Registrados</h1>
+
+    <!-- Mensaje de éxito -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Manejo de lista vacía o nula -->
+    <div th:if="${eventos == null || eventos.isEmpty()}">
+        <p>No hay eventos registrados actualmente.</p>
+    </div>
+
+    <!-- Tabla solo si hay eventos -->
+    <table th:if="${eventos != null && !eventos.isEmpty()}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Boletos Disponibles</th>
+                <th>Boletos Vendidos</th>
+                <th>Boletos Canjeados</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="evento : ${eventos}">
+                <td th:text="${evento.id}"></td>
+                <td th:text="${evento.nombre != null ? evento.nombre : 'Sin nombre'}"></td>
+                <td th:text="${evento.fechaInicio != null ? evento.fechaInicio : 'Sin fecha de inicio'}"></td>
+                <td th:text="${evento.fechaFin != null ? evento.fechaFin : 'Sin fecha de fin'}"></td>
+                <td th:text="${evento.boletosDisponibles}"></td>
+                <td th:text="${evento.boletosVendidos}"></td>
+                <td th:text="${evento.boletosCanjeados}"></td>
+                <td>
+                    <div class="actions">
+                        <a th:href="@{/api/eventos/editar/{id}(id=${evento.id})}">Editar</a>
+                        <a th:href="@{/api/eventos/borrar/{id}(id=${evento.id})}" 
+                           onclick="return confirm('¿Está seguro de que desea borrar este evento?')">Borrar</a>
+                        <!-- Botón para vender boletos -->
+                        <a th:href="@{/api/eventos/vender/{id}(id=${evento.id})}" >Vender Boleto</a>
+                        <a th:href="@{/api/eventos/canjear/{id}(id=${evento.id})}">Canjear Boleto</a>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/api/eventos/crear" class="button-create">Crear nuevo evento</a>
+</body>
+</html>
